@@ -60,7 +60,7 @@ int main(void)
         node2->setFrameLoop(0, 25);
     }
 
-    //smgr->addCameraSceneNode(0, vector3df(0, 10, 40), vector3df(0, 0, 0));
+    //smgr->addCameraSceneNode(0, vector3df(0, 10, 40), vector3df(0, 0, 0));//
     smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
     device->getCursorControl()->setVisible(false);
     while (device->run())
