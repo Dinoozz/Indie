@@ -21,7 +21,7 @@ Node::Node(Mesh mesh1, const char* node1, game_t* game)
     if (node)
     {
         node->setMaterialFlag(EMF_LIGHTING, false);
-        node->setMD2Animation(scene::EMAT_STAND);
+        //node->setMD2Animation(scene::EMAT_STAND);
         node->setMaterialTexture(0, game->driver->getTexture(node1));
         node->setPosition(core::vector3df(0, 0, 0));
     }

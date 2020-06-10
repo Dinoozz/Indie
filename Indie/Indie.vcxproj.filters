@@ -30,6 +30,9 @@
     <ClCompile Include="UI.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
