@@ -5,11 +5,32 @@
 std::vector <Node> map_gen3D(char **map2D, Mesh crate_mesh, game_t* game)
 {
     int x = -15;
-    int y = 2;
+    int y = 1;
     int z = -15;
     int i = 0;
     std::vector <Node> destructibleList;
 
+    while (map2D[i]) {
+        if (map2D[i] == '#') {
+            Node tmp(crate_mesh, "../media/white_marble_03_4k_baseColor.tga", game);
+            tmp.getnode()->setPosition(vector3df(x, y, z));
+            x += 1;
+        }
+        else if (map2D[i] == '*') {
+            Node tmp(crate_mesh, "../media/crate_1.jpg", game);
+            tmp.getnode()->setPosition(vector3df(x, y, z));
+            destructibleList.emplace_back(tmp);
+            x += 1;
+        }
+        else if (map2D[i] == ' ') {
+            x += 1;
+        }
+        else if (map2D[i] == '\n') {
+            z += 1;
+            x = -15;
+        }
+        i++;
+    }
     for (int j = 0; map2D[j]; j++) {
         i = 0;
         while (map2D[j][i]) {
@@ -145,6 +166,8 @@ int main(void)
     while (game.device->run())
     {
         game.driver->beginScene(true, true, SColor(255, 100, 101, 140));
+        camera->setPosition(bomberman.getnode()->getPosition() + vector3df(0, 5, -10));
+        camera->setTarget(bomberman.getnode()->getPosition());
 
         const u32 now = game.device->getTimer()->getTime();
         const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
