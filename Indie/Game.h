@@ -1,5 +1,9 @@
 #include <irrlicht.h>
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif

@@ -155,9 +155,6 @@
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="D:\travail\dolphin 3d\dolphin_f.pcx" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="Game.h" />
