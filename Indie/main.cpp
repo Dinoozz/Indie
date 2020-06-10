@@ -52,7 +52,8 @@ void place_bomb(Mesh bomb_mesh, game_t game, Node bomberman, MyEventReceiver rec
     if (receiver.IsKeyDown(irr::KEY_KEY_E)) {
         Node bomb(bomb_mesh, "../media/Albedo2.png", &game);
         bomb.getnode()->setScale(vector3df(2, 2, 2));
-        bomb.getnode()->setPosition(bomberman.getnode()->getPosition() + vector3df(0, 0.5, 0));
+        vector3df position = bomberman.getnode()->getPosition();
+        bomb.getnode()->setPosition(vector3df(int(position.X), position.Y + 0.5, int(position.Z)));
     }
 }
 
@@ -76,10 +77,11 @@ int main(void)
     Node ground(crate_mesh, "../media/white_marble_03_4k_baseColor.tga", &game);
     Node bomberman(bomberman_mesh, "../media/WhiteBombermanTextures.png", &game);
     bomberman.getnode()->setPosition(core::vector3df(0, 1, 0));
+    bomberman.getnode()->setFrameLoop(27, 64);
     ground.getnode()->setScale(core::vector3df(10, 1, 10));
 
-    //smgr->addCameraSceneNode(0, vector3df(0, 10, 40), vector3df(0, 0, 0));//
-    game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
+    ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(0, 0, 0));//
+    //game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
     game.device->getCursorControl()->setVisible(false);
     u32 then = game.device->getTimer()->getTime();
 
