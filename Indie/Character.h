@@ -1,14 +1,7 @@
 #pragma once
 #include "Object.h"
-class Character : public Object
+typedef struct
 {
-public:
-	Character(IAnimatedMesh* mesh, IAnimatedMeshSceneNode* node, int speed, int pui, int NbBombe, bool WallPass);
-protected:
-private:
-	int speed;
-	int pui;
-	int NbBombe;
-	bool WallPass;
-};
+
+} character_t;
 

@@ -18,20 +18,41 @@
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidGround.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="D:\travail\dolphin 3d\dolphin.md2">
-      <Filter>media</Filter>
-    </None>
     <None Include="D:\travail\dolphin 3d\dolphin_f.pcx">
       <Filter>media</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="event.h">
-      <Filter>src</Filter>
+    <ClInclude Include="Character.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="Object.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidGround.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="event.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

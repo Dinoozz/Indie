@@ -80,6 +80,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\Téléchargements\irrlicht-1.8.4\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Téléchargements\irrlicht-1.8.4\lib\Win64-visualStudio;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <ReferencePath>D:\Téléchargements\irrlicht-1.8.4\bin\Win64-VisualStudio;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -124,6 +128,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,6 +160,7 @@
   <ItemGroup>
     <ClInclude Include="Character.h" />
     <ClInclude Include="event.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="SolidGround.h" />
     <ClInclude Include="UI.h" />

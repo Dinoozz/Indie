@@ -1,22 +1,25 @@
-#pragma once
-#include <irrlicht.h>
+#include "Game.h"
 
-using namespace irr;
-using namespace core;
-using namespace scene;
-using namespace video;
-using namespace io;
-using namespace gui;
-
-class Object
+class Mesh
 {
 public:
-	Object(IAnimatedMesh* mesh, IAnimatedMeshSceneNode* node);
-	virtual ~Object();
+	Mesh(const char *mesh1, game_t *game);
+	virtual ~Mesh();
+	IAnimatedMesh *getmesh();
 
 protected:
 private:
 	IAnimatedMesh* mesh;
-	IAnimatedMeshSceneNode* node;
 };
 
+class Node
+{
+public:
+	Node(Mesh mesh1, const char* node1, game_t* game);
+	virtual ~Node();
+	IAnimatedMeshSceneNode* getnode();
+
+protected:
+private:
+	IAnimatedMeshSceneNode* node;
+};
