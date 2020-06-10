@@ -83,7 +83,7 @@
     <IncludePath>D:\Téléchargements\irrlicht-1.8.4\include;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Téléchargements\irrlicht-1.8.4\lib\Win64-visualStudio;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <ReferencePath>D:\Téléchargements\irrlicht-1.8.4\bin\Win64-VisualStudio;$(ReferencePath)</ReferencePath>
+    <ReferencePath>$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
