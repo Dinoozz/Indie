@@ -153,6 +153,7 @@
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="SolidGround.cpp" />
+    <ClCompile Include="MapGen.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>

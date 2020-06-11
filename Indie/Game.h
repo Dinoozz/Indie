@@ -3,6 +3,8 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <stdlib.h>
+#include <time.h>
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -22,3 +24,5 @@ typedef struct
 	ISceneManager* smgr;
 	IGUIEnvironment* guienv;
 } game_t;
+
+char** map_gen(int size);
