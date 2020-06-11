@@ -27,8 +27,8 @@ void display_menu(game_t *game, menu_t *menu, const f32 translation)
 
 void menu_camera_rotate(game_t* game, menu_t* menu, const f32 frameDeltaTime, ICameraSceneNode* camera)
 {
-	static f32 target = 0.2;
-	target += 0.2;
+	static f32 target = 0.5;
+	target += 0.5;
 	camera->setTarget(camera->getTarget() - vector3df(0, 20.f * frameDeltaTime, 0));
 	if (camera->getTarget().Y <= 0) {
 		menu->is_rotating = 0;
