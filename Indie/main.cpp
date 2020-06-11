@@ -1,6 +1,6 @@
 #include "Object.h"
 #include "event.h"
-
+#include "menu.h"
 
 std::vector <Node> map_gen(const std::string map2D, Mesh crate_mesh, game_t* game)
 {
@@ -93,6 +93,7 @@ void place_bomb(Mesh bomb_mesh, game_t game, Node bomberman, MyEventReceiver rec
 int main(void)
 {
     game_t game;
+    menu_t menu;
     MyEventReceiver receiver;
     game.device = createDevice(video::EDT_OPENGL, dimension2d<u32>(1920, 1080), 16, false, false, false, &receiver);
 
@@ -121,8 +122,8 @@ int main(void)
     bomberman.getnode()->setFrameLoop(27, 64);
     ground.getnode()->setScale(core::vector3df(10, 1, 10));
 
-
-    ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(0, 0, 0));//
+    init_menu(&game, &menu);
+    ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(0, 50, 0));//
     //game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
     game.device->getCursorControl()->setVisible(false);
     u32 then = game.device->getTimer()->getTime();
@@ -133,14 +134,22 @@ int main(void)
     {
         game.driver->beginScene(true, true, SColor(255, 100, 101, 140));
         camera->setPosition(bomberman.getnode()->getPosition() + vector3df(0, 5, -10));
-        camera->setTarget(bomberman.getnode()->getPosition());
 
         const u32 now = game.device->getTimer()->getTime();
         const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
         then = now;
 
-        is_running = player_movement(frameDeltaTime, receiver, &bomberman, is_running);
-        place_bomb(bomb_mesh, game, bomberman, receiver);
+        if (menu.in_game == true) {
+            camera->setTarget(bomberman.getnode()->getPosition());
+            is_running = player_movement(frameDeltaTime, receiver, &bomberman, is_running);
+            place_bomb(bomb_mesh, game, bomberman, receiver);
+        }
+        else {
+            if (menu.is_rotating)
+                menu_camera_rotate(&game, &menu, frameDeltaTime, camera);
+            else if (main_menu(&game, &menu, frameDeltaTime, receiver))
+                break;
+        }
 
         game.smgr->drawAll();
         game.guienv->drawAll();

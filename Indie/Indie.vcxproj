@@ -159,6 +159,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="event.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="SolidGround.h" />
     <ClInclude Include="UI.h" />
