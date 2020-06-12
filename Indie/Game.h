@@ -7,6 +7,8 @@
 #include <time.h>
 #include <math.h>
 
+#include "event.h"
+
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #endif

@@ -72,3 +72,48 @@ char **map_gen(int size)
 	}
 	return map;
 }
+
+std::vector <Node> map_gen3D(char** map2D, Mesh crate_mesh, game_t* game)
+{
+	int x = 0;
+	int y = 1;
+	int z = 0;
+	int i = 0;
+	std::vector <Node> destructibleList;
+
+	for (int j = 0; map2D[j]; j++) {
+		i = 0;
+		while (map2D[j][i]) {
+			if (map2D[j][i] == '#') {
+				Node tmp(crate_mesh, "../media/white_marble_03_4k_baseColor.tga", game);
+				tmp.getnode()->setPosition(vector3df(x, y, z));
+				destructibleList.emplace_back(tmp);
+				x += 2;
+			}
+			else if (map2D[j][i] == '*') {
+				Node tmp(crate_mesh, "../media/crate_1.jpg", game);
+				tmp.getnode()->setPosition(vector3df(x, y, z));
+				destructibleList.emplace_back(tmp);
+				x += 2;
+			}
+			else if (map2D[j][i] == ' ') {
+				x += 2;
+			}
+			else if (map2D[j][i] == '\n') {
+				z += 2;
+				x = 0;
+			}
+			i++;
+		}
+	}
+
+	return destructibleList;
+}
+
+std::vector <Node> reloadMap(std::vector <Node> blocks, Mesh crate_mesh, game_t* game)
+{
+
+	for (int i = 0; i < blocks.size(); i++)
+		blocks.at(i).getnode()->remove();
+	return (map_gen3D(map_gen(15), crate_mesh, game));
+}
