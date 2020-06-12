@@ -30,7 +30,7 @@ void menu_camera_rotate(game_t* game, menu_t* menu, const f32 frameDeltaTime, IC
 	static f32 target = 0.5;
 	target += 0.5;
 	camera->setTarget(camera->getTarget() - vector3df(0, 20.f * frameDeltaTime, 0));
-	if (camera->getTarget().Y <= 0) {
+	if (camera->getTarget().Y <= -10) {
 		menu->is_rotating = 0;
 		menu->in_game = 1;
 	}
