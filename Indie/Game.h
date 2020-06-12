@@ -5,6 +5,7 @@
 #include <string>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -23,6 +24,7 @@ typedef struct
 	IVideoDriver* driver;
 	ISceneManager* smgr;
 	IGUIEnvironment* guienv;
+	char **map2D;
 } game_t;
 
 char** map_gen(int size);

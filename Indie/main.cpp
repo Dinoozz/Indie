@@ -4,9 +4,9 @@
 
 std::vector <Node> map_gen3D(char **map2D, Mesh crate_mesh, game_t* game)
 {
-    int x = -15;
+    int x = 0;
     int y = 1;
-    int z = -15;
+    int z = 0;
     int i = 0;
     std::vector <Node> destructibleList;
 
@@ -30,7 +30,7 @@ std::vector <Node> map_gen3D(char **map2D, Mesh crate_mesh, game_t* game)
             }
             else if (map2D[j][i] == '\n') {
                 z += 2;
-                x = -15;
+                x = 0;
             }
             i++;
         }
@@ -88,11 +88,14 @@ bool player_movement(const f32 frameDeltaTime, MyEventReceiver receiver, Node *b
 void place_bomb(Mesh bomb_mesh, game_t game, Node bomberman, MyEventReceiver receiver)
 {
     vector3df position = bomberman.getnode()->getPosition();
-    printf("X: %f, Z:%f\n", int(position.X) % 2, int(position.Z) % 2);
-    if (receiver.IsKeyDown(irr::KEY_KEY_E)) {
+    int posx = round(position.X / 2) * 2;
+    int posz = round(position.Z / 2) * 2;
+    printf("x: %d z: %d\n", posx, posz);
+    if (receiver.IsKeyDown(irr::KEY_KEY_E) && (posx % 2) == 0 && (posz % 2) == 0) {
         Node bomb(bomb_mesh, "../media/Albedo2.png", &game);
         bomb.getnode()->setScale(vector3df(4, 4, 4));
-        bomb.getnode()->setPosition(vector3df(int(position.X), position.Y + 0.5, int(position.Z)));
+        bomb.getnode()->setPosition(vector3df(posx, position.Y + 0.5, posz));
+        
     }
 }
 
@@ -124,10 +127,10 @@ int main(void)
     Mesh bomb_mesh("../media/bomb.obj", &game);
     Node ground(crate_mesh, "../media/grass.jpg", &game);
     Node bomberman(bomberman_mesh, "../media/WhiteBombermanTextures.png", &game);
-    bomberman.getnode()->setPosition(core::vector3df(0, 1, 0));
-
+    bomberman.getnode()->setPosition(core::vector3df(0, 0, 0));
+    bomberman.getnode()->setScale(core::vector3df(1.25, 1.25, 1.25));
     ground.getnode()->setScale(core::vector3df(17, 1, 17));
-    ground.getnode()->setPosition(core::vector3df(1, 0, 1));
+    ground.getnode()->setPosition(core::vector3df(16, -1, 16));
 
 
     //MAP GEN
@@ -138,11 +141,11 @@ int main(void)
     bomberman.getnode()->setFrameLoop(27, 64);
 
     init_menu(&game, &menu);
-    ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(0, 40, 0));//
+    ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(16, 40, 16));//
     //game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
     game.device->getCursorControl()->setVisible(false);
     u32 then = game.device->getTimer()->getTime();
-    camera->setPosition(bomberman.getnode()->getPosition() + vector3df(0, 25, -7));
+    camera->setPosition(vector3df(16, 23, 9));
     bool is_running = false;
 
     while (game.device->run())
