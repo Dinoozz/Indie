@@ -2,7 +2,6 @@
 #include "event.h"
 #include "menu.h"
 
-
 std::vector <Node> map_gen3D(char **map2D, Mesh crate_mesh, game_t* game)
 {
     int x = -15;
@@ -88,10 +87,11 @@ bool player_movement(const f32 frameDeltaTime, MyEventReceiver receiver, Node *b
 
 void place_bomb(Mesh bomb_mesh, game_t game, Node bomberman, MyEventReceiver receiver)
 {
+    vector3df position = bomberman.getnode()->getPosition();
+    printf("X: %f, Z:%f\n", int(position.X) % 2, int(position.Z) % 2);
     if (receiver.IsKeyDown(irr::KEY_KEY_E)) {
         Node bomb(bomb_mesh, "../media/Albedo2.png", &game);
         bomb.getnode()->setScale(vector3df(4, 4, 4));
-        vector3df position = bomberman.getnode()->getPosition();
         bomb.getnode()->setPosition(vector3df(int(position.X), position.Y + 0.5, int(position.Z)));
     }
 }
