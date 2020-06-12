@@ -1,5 +1,6 @@
 #include "Object.h"
 #include "event.h"
+#include "menu.h"
 
 
 std::vector <Node> map_gen3D(char **map2D, Mesh crate_mesh, game_t* game)
@@ -10,7 +11,6 @@ std::vector <Node> map_gen3D(char **map2D, Mesh crate_mesh, game_t* game)
     int i = 0;
     std::vector <Node> destructibleList;
 
-   
     for (int j = 0; map2D[j]; j++) {
         i = 0;
         while (map2D[j][i]) {
@@ -56,6 +56,7 @@ bool move_player(const f32 frameDeltaTime, MyEventReceiver receiver, Node *bombe
         droit = 0.6;
         is_running = true;
     }
+
     if (receiver.IsKeyDown(irr::KEY_KEY_Z)) {
         player_position.Z += MOVEMENT_SPEED * frameDeltaTime * coté;
         bomberman->getnode()->setRotation(vector3df(0, 180, 0));
@@ -106,6 +107,7 @@ std::vector <Node> reloadMap(std::vector <Node> blocks, Mesh crate_mesh, game_t*
 int main(void)
 {
     game_t game;
+    menu_t menu;
     MyEventReceiver receiver;
     game.device = createDevice(video::EDT_OPENGL, dimension2d<u32>(1920, 1080), 16, false, false, false, &receiver);
 
@@ -135,28 +137,31 @@ int main(void)
 
     bomberman.getnode()->setFrameLoop(27, 64);
 
-
-    //ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(0, 0, 0));//
-    game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
+    init_menu(&game, &menu);
+    ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(0, 40, 0));//
+    //game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
     game.device->getCursorControl()->setVisible(false);
     u32 then = game.device->getTimer()->getTime();
-
+    camera->setPosition(bomberman.getnode()->getPosition() + vector3df(0, 25, -7));
     bool is_running = false;
 
     while (game.device->run())
     {
         game.driver->beginScene(true, true, SColor(255, 100, 101, 140));
-        camera->setPosition(bomberman.getnode()->getPosition() + vector3df(0, 5, -10));
-        camera->setTarget(bomberman.getnode()->getPosition());
 
         const u32 now = game.device->getTimer()->getTime();
         const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
         then = now;
 
-        is_running = player_movement(frameDeltaTime, receiver, &bomberman, is_running);
-        place_bomb(bomb_mesh, game, bomberman, receiver);
-        if (receiver.IsKeyDown(irr::KEY_KEY_L)) {
-            destructibleList = reloadMap(destructibleList, crate_mesh, &game);
+        if (menu.in_game == true) {
+            //camera->setTarget(bomberman.getnode()->getPosition());
+            is_running = player_movement(frameDeltaTime, receiver, &bomberman, is_running);
+            place_bomb(bomb_mesh, game, bomberman, receiver);
+        } else {
+            if (menu.is_rotating)
+                menu_camera_rotate(&game, &menu, frameDeltaTime, camera);
+            else if (main_menu(&game, &menu, frameDeltaTime, receiver))
+                break;
         }
 
         game.smgr->drawAll();
