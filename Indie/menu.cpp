@@ -18,6 +18,7 @@ void save_menu(game_t* game, menu_t* menu, data_t* data)
 {
 	std::vector <std::string> ListSave = open_save_data_base(game, data);
 
+	load_save_in_data(game, data, "test.txt");
 }
 
 void display_menu(game_t *game, menu_t *menu, const f32 translation)
@@ -66,10 +67,11 @@ int main_menu(game_t *game, menu_t *menu, const f32 frameDeltaTime, MyEventRecei
 			menu->is_rotating = true;
 			game->nb_player = 2;
 		}
-		else if (menu->choice == 3)
+		else if (menu->choice == 3) {
 			save_menu(game, menu, data);
+			game->load = true;
 			//menu->is_rotating = true;
-		else if (menu->choice == 4) {
+		} else if (menu->choice == 4) {
 			return (1);
 		}
 	}

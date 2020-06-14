@@ -9,7 +9,8 @@
 #include <time.h>
 #include <math.h>
 #include <ctime>
-
+#include <iterator>
+#include <cstdlib>
 #include "event.h"
 
 #ifdef _IRR_WINDOWS_
@@ -37,6 +38,7 @@ typedef struct
 	std::vector <Node> bonus;
 	int nb_player;
 	bool is_loading;
+	bool load;
 } game_t;
 
 typedef struct
@@ -52,7 +54,7 @@ typedef struct
 {
 	int nb_player;
 	char **map2D;
-	std::vector <character_t> List_Charact;
+	std::vector <character_t *> List_Charact;
 } data_t;
 
 char** map_gen(int size);

@@ -16,6 +16,7 @@ int main(void)
     game.driver = game.device->getVideoDriver();
     game.smgr = game.device->getSceneManager();
     game.guienv = game.device->getGUIEnvironment();
+    game.load = false;
 
     Mesh crate_mesh("../media/Crate1.obj", &game);
     Mesh bomberman_mesh("../media/Bomberman.md3", &game);
@@ -50,8 +51,7 @@ int main(void)
     //
 
     init_menu(&game, &menu, &data);
-    if (game.is_loading == true)
-        load_save(&game, &data, &bomberman1, &bomberman2, &bomberman3, &bomberman4);
+    
     ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(16, 40, 16));//
     //game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
     game.device->getCursorControl()->setVisible(false);
@@ -59,6 +59,7 @@ int main(void)
     camera->setPosition(vector3df(16, 23, 9));
     bool is_running = false;
     bool loading = true;
+    bool create_map = true;
 
     scene::ISceneNode *SkyBox = game.smgr->addSkyBoxSceneNode(
         game.driver->getTexture("../media/irrlicht2_up.jpg"),
@@ -78,12 +79,16 @@ int main(void)
 
         if (menu.in_game == true) {
             if (loading) {
-                if (game.nb_player == 1) {
+                if (game.nb_player == 1 && bomberman2.getIsAlive() == true) {
                     bomberman2.getnode()->remove();
                     Character bomberman2(bomberman_mesh, "../media/BlackBombermanTextures.png", &game);
                     bomberman2.getnode()->setPosition(core::vector3df(30, 0, 30));
                     bomberman2.getnode()->setScale(core::vector3df(1.25, 1.25, 1.25));
                     bomberman2.getnode()->setFrameLoop(27, 64);
+                    if (game.load == true) {
+                        restore_p2(&bomberman2, &data);
+                        game.load = false;
+                    }
                 }
                 loading = false;
             }
@@ -101,8 +106,14 @@ int main(void)
             game.smgr->drawAll();
         } else {
             game.smgr->drawAll();
-            if (menu.is_rotating)
+            if (menu.is_rotating) {
+                if (game.load == true && create_map == true) {
+                    load_save(&game, &data, &bomberman1, &bomberman2, &bomberman3, &bomberman4);
+                    destructibleList = reloadMap(destructibleList, crate_mesh, &game);
+                    create_map = false;
+                }
                 menu_camera_rotate(&game, &menu, frameDeltaTime, camera);
+            }
             else if (main_menu(&game, &menu, frameDeltaTime, receiver, &data))
                 break;
         }

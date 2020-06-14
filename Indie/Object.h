@@ -54,3 +54,5 @@ void update_bomb(game_t* game, f32 frameDeltaTime, std::vector <Node>* blocks, M
 bool check_death(game_t* game, Character *bomberman);
 void check_bonus(Player* bomberman, game_t* game);
 void load_save(game_t* game, data_t* data, Player* bomberman1, Player* bomberman2, Character* bomberman3, Character* bomberman4);
+void load_save_in_data(game_t* game, data_t* data, std::string Filename);
+void restore_p2(Character* bomberman2, data_t* data);
