@@ -56,3 +56,5 @@ void check_bonus(Player* bomberman, game_t* game);
 void load_save(game_t* game, data_t* data, Player* bomberman1, Player* bomberman2, Character* bomberman3, Character* bomberman4);
 void load_save_in_data(game_t* game, data_t* data, std::string Filename);
 void restore_p2(Character* bomberman2, data_t* data);
+void create_save(game_t* game, Character* bomberman1, Character* bomberman2, Character* bomberman3, Character* bomberman4);
+

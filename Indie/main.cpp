@@ -80,7 +80,7 @@ int main(void)
         then = now;
 
         if (menu.in_game == true && menu.pause == false) {
-            if (loading) {
+            /*if (loading) {
                 if (game.nb_player == 1 && bomberman2.getIsAlive() == true) {
                     bomberman2.getnode()->remove();
                     Character bomberman2(bomberman_mesh, "../media/BlackBombermanTextures.png", &game);
@@ -93,7 +93,7 @@ int main(void)
                     }
                 }
                 loading = false;
-            }
+            }*/
             if (bomberman1.getIsAlive() && check_death(&game, &bomberman1)) {
                     bomberman1.getIsRunning() = player_movement(frameDeltaTime, receiver, &bomberman1, &game);
                     check_bonus(&bomberman1, &game);
@@ -124,7 +124,7 @@ int main(void)
                 break;
         } else {
             game.smgr->drawAll();
-            if (play_pause(&game, &pause, frameDeltaTime, receiver, &menu)) {
+            if (play_pause(&game, &pause, frameDeltaTime, receiver, &menu, &bomberman1, &bomberman2, &bomberman3, &bomberman4)) {
                 break;
             }
         }

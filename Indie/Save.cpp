@@ -66,3 +66,45 @@ void load_save_in_data(game_t* game, data_t* data, std::string Filename)
 	}
 }
 
+void create_save(game_t* game, Character* bomberman1, Character* bomberman2, Character* bomberman3, Character* bomberman4)
+{
+	std::srand(time(NULL));
+
+	int rand = int(std::rand() * 100);
+	
+	std::ofstream file(std::string("../save/") + std::to_string(rand) + std::string(".txt"));
+
+	std::vector <Character*> Temp_list;
+	Temp_list.emplace_back(bomberman1);
+	Temp_list.emplace_back(bomberman2);
+	Temp_list.emplace_back(bomberman3);
+	Temp_list.emplace_back(bomberman4);
+	vector3df position;
+	for (int i = 0; i < Temp_list.size(); i++) {
+		if (Temp_list.at(i)->getIsAlive() == false)
+			continue;
+		printf("i: %d\n", Temp_list.at(i)->getnode()->getPosition().Z);
+		position = Temp_list.at(i)->getnode()->getPosition();
+		int posx = round(position.X / 2);
+		int posz = round(position.Z / 2);
+		game->map2D[posz][posx] = i + '1';
+	}
+	for (int i = 0; game->map2D[i]; i++) {
+		file << game->map2D[i];
+	}
+	file << game->nb_player << std::endl;
+	for (int i = 0; i < Temp_list.size(); i++) {
+		file << Temp_list.at(i)->getSpeed() << " " << Temp_list.at(i)->getPower() << " " << Temp_list.at(i)->getNbBomb() << " " << Temp_list.at(i)->getWallpass() << " " << Temp_list.at(i)->getIsAlive() << std::endl;
+	}
+	for (int j = 0; game->map2D[j]; j++) {
+		for (int g = 0; game->map2D[j][g]; g++) {
+			if (game->map2D[j][g] == '1' || game->map2D[j][g] == '2' || game->map2D[j][g] == '3' || game->map2D[j][g] == '4') {
+				game->map2D[j][g] = ' ';
+			}
+		}
+	}
+	file.close();
+	std::ofstream file2("../save/DataBase.txt", std::ios::app);
+	file2 << std::to_string(rand) << ".txt" << std::endl;
+	file2.close();
+}

@@ -11,6 +11,7 @@
 #include <ctime>
 #include <iterator>
 #include <cstdlib>
+#include <chrono>
 #include "event.h"
 
 #ifdef _IRR_WINDOWS_

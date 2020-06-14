@@ -10,6 +10,7 @@ void init_menu(game_t *game, menu_t *menu, data_t *data)
 	menu->load_button = game->driver->getTexture("../media/load_game.png");
 	menu->arrow = game->driver->getTexture("../media/arrow.png");
 	menu->default_button = game->driver->getTexture("../media/default.png");
+	menu->back_button = game->driver->getTexture("../media/back_button.png");
 	menu->choice = 1;
 	menu->in_game = false;
 	menu->is_rotating = 0;
@@ -20,8 +21,6 @@ void init_menu(game_t *game, menu_t *menu, data_t *data)
 
 void save_menu(game_t* game, menu_t* menu, data_t* data)
 {
-	std::vector <std::string> ListSave = open_save_data_base(game, data);
-
 	load_save_in_data(game, data, "test.txt");
 }
 
@@ -62,7 +61,7 @@ int main_menu(game_t *game, menu_t *menu, const f32 frameDeltaTime, MyEventRecei
 
 	time += frameDeltaTime;
 	if (menu->in_load_menu == true) {
-		load_menu(game, menu, frameDeltaTime, receiver, data);
+		load_menu(game, menu, frameDeltaTime, receiver, data, false);
 		return (0);
 	}
 	display_menu(game, menu, 0);
@@ -78,7 +77,7 @@ int main_menu(game_t *game, menu_t *menu, const f32 frameDeltaTime, MyEventRecei
 		else if (menu->choice == 3) {
 			menu->choice = 1;
 			menu->in_load_menu = true;
-			load_menu(game, menu, frameDeltaTime, receiver, data);
+			load_menu(game, menu, frameDeltaTime, receiver, data, true);
 			return (0);
 			//menu->is_rotating = true;
 		} else if (menu->choice == 4) {

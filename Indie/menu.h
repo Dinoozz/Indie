@@ -7,6 +7,7 @@ typedef struct
 	bool pause;
 	bool in_load_menu;
 	int lateral_choice;
+	video::ITexture* back_button;
 	video::ITexture* quit_button;
 	video::ITexture* play_1_button;
 	video::ITexture* play_2_button;
@@ -30,7 +31,7 @@ void display_menu(game_t* game, menu_t* menu, const f32 translation);
 int main_menu(game_t* game, menu_t* menu, const f32 frameDeltaTime, MyEventReceiver receiver, data_t* data);
 void menu_camera_rotate(game_t* game, menu_t* menu, const f32 frameDeltaTime, ICameraSceneNode* camera);
 std::vector <std::string> open_save_data_base(game_t *game, data_t *data);
-int play_pause(game_t* game, pause_t* pause, const f32 frameDeltaTime, MyEventReceiver receiver, menu_t* menu);
+int play_pause(game_t* game, pause_t* pause, const f32 frameDeltaTime, MyEventReceiver receiver, menu_t* menu, Character* bomberman1, Character* bomberman2, Character* bomberman3, Character* bomberman4);
 void init_pause(game_t* game, pause_t* pause);
 void save_menu(game_t* game, menu_t* menu, data_t* data);
-int load_menu(game_t* game, menu_t* menu, f32 frameDeltaTime, MyEventReceiver receiver, data_t* data);
+int load_menu(game_t* game, menu_t* menu, f32 frameDeltaTime, MyEventReceiver receiver, data_t* data, bool first);

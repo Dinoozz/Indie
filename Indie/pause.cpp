@@ -27,7 +27,7 @@ void display_pause(game_t *game, pause_t *pause)
 		video::SColor(255, 255, 255, 255), true);
 }
 
-int play_pause(game_t* game, pause_t* pause, const f32 frameDeltaTime, MyEventReceiver receiver, menu_t *menu)
+int play_pause(game_t* game, pause_t* pause, const f32 frameDeltaTime, MyEventReceiver receiver, menu_t *menu, Character* bomberman1, Character* bomberman2, Character* bomberman3, Character* bomberman4)
 {
 	static f32 time = 0;
 
@@ -38,7 +38,9 @@ int play_pause(game_t* game, pause_t* pause, const f32 frameDeltaTime, MyEventRe
 			menu->pause = false;
 			return (0);
 		}
-		else if (pause->choice == 2) {
+		else if (pause->choice == 2 && time > 0.2) {
+			create_save(game, bomberman1, bomberman2, bomberman3, bomberman4);
+			time = 0;
 		}
 		else if (pause->choice == 3) {
 			return (1);
