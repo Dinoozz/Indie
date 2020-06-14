@@ -1,10 +1,11 @@
-#include "Object.h"
+#include "Character.h"
 #include "event.h"
 #include "menu.h"
 
 int main(void)
 {
     game_t game;
+    data_t data;
     menu_t menu;
     MyEventReceiver receiver;
     game.device = createDevice(video::EDT_OPENGL, dimension2d<u32>(1920, 1080), 16, false, false, false, &receiver);
@@ -15,33 +16,57 @@ int main(void)
     game.driver = game.device->getVideoDriver();
     game.smgr = game.device->getSceneManager();
     game.guienv = game.device->getGUIEnvironment();
-    game.guienv->addStaticText(L"Hello World! Indie Studio!", rect<s32>(10, 10, 260, 22), true);
 
     Mesh crate_mesh("../media/Crate1.obj", &game);
     Mesh bomberman_mesh("../media/Bomberman.md3", &game);
     Mesh bomb_mesh("../media/bomb.obj", &game);
-    Node ground(crate_mesh, "../media/grass.jpg", &game);
-    Node bomberman(bomberman_mesh, "../media/WhiteBombermanTextures.png", &game);
-    bomberman.getnode()->setPosition(core::vector3df(0, 0, 0));
-    bomberman.getnode()->setScale(core::vector3df(1.25, 1.25, 1.25));
+    Node ground(crate_mesh, "../media/grass.jpg", &game); 
+
+    //Non static init
+    Player bomberman1(bomberman_mesh, "../media/WhiteBombermanTextures.png", &game, 1);
+    Player bomberman2(bomberman_mesh, "../media/BlackBombermanTextures.png", &game, 2);
+    Character bomberman3(bomberman_mesh, "../media/PinkBombermanTextures.png", &game);
+    Character bomberman4(bomberman_mesh, "../media/RedBombermanTextures.png", &game);
+    bomberman1.getnode()->setPosition(core::vector3df(2, 0, 2));
+    bomberman2.getnode()->setPosition(core::vector3df(30, 0, 30));
+    bomberman3.getnode()->setPosition(core::vector3df(30, 0, 2));
+    bomberman4.getnode()->setPosition(core::vector3df(2, 0, 30));
+    //
+    bomberman1.getnode()->setScale(core::vector3df(1.25, 1.25, 1.25));
+    bomberman2.getnode()->setScale(core::vector3df(1.25, 1.25, 1.25));
+    bomberman3.getnode()->setScale(core::vector3df(1.25, 1.25, 1.25));
+    bomberman4.getnode()->setScale(core::vector3df(1.25, 1.25, 1.25));
+    bomberman1.getnode()->setFrameLoop(27, 64);
+    bomberman2.getnode()->setFrameLoop(27, 64);
+    bomberman3.getnode()->setFrameLoop(27, 64);
+    bomberman4.getnode()->setFrameLoop(27, 64);
+
     ground.getnode()->setScale(core::vector3df(17, 1, 17));
     ground.getnode()->setPosition(core::vector3df(16, -1, 16));
 
 
     //MAP GEN
-   
     std::vector <Node> destructibleList = map_gen3D(map_gen(15), crate_mesh, &game);
+    //
 
-
-    bomberman.getnode()->setFrameLoop(27, 64);
-
-    init_menu(&game, &menu);
+    init_menu(&game, &menu, &data);
+    if (game.is_loading == true)
+        load_save(&game, &data, &bomberman1, &bomberman2, &bomberman3, &bomberman4);
     ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(16, 40, 16));//
     //game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
     game.device->getCursorControl()->setVisible(false);
     u32 then = game.device->getTimer()->getTime();
     camera->setPosition(vector3df(16, 23, 9));
     bool is_running = false;
+    bool loading = true;
+
+    scene::ISceneNode *SkyBox = game.smgr->addSkyBoxSceneNode(
+        game.driver->getTexture("../media/irrlicht2_up.jpg"),
+        game.driver->getTexture("../media/irrlicht2_dn.jpg"),
+        game.driver->getTexture("../media/irrlicht2_lf.jpg"),
+        game.driver->getTexture("../media/irrlicht2_rt.jpg"),
+        game.driver->getTexture("../media/irrlicht2_ft.jpg"),
+        game.driver->getTexture("../media/irrlicht2_bk.jpg"));
 
     while (game.device->run())
     {
@@ -52,17 +77,35 @@ int main(void)
         then = now;
 
         if (menu.in_game == true) {
-            //camera->setTarget(bomberman.getnode()->getPosition());
-            is_running = player_movement(frameDeltaTime, receiver, &bomberman, is_running);
-            place_bomb(bomb_mesh, game, bomberman, receiver);
+            if (loading) {
+                if (game.nb_player == 1) {
+                    bomberman2.getnode()->remove();
+                    Character bomberman2(bomberman_mesh, "../media/BlackBombermanTextures.png", &game);
+                    bomberman2.getnode()->setPosition(core::vector3df(30, 0, 30));
+                    bomberman2.getnode()->setScale(core::vector3df(1.25, 1.25, 1.25));
+                    bomberman2.getnode()->setFrameLoop(27, 64);
+                }
+                loading = false;
+            }
+            if (bomberman1.getIsAlive() && check_death(&game, &bomberman1)) {
+                    bomberman1.getIsRunning() = player_movement(frameDeltaTime, receiver, &bomberman1, &game);
+                    check_bonus(&bomberman1, &game);
+                    place_bomb(bomb_mesh, &game, bomberman1, receiver);
+            }
+            if (game.nb_player == 2 && bomberman2.getIsAlive() && check_death(&game, &bomberman2)) {
+                bomberman2.getIsRunning() = player_movement(frameDeltaTime, receiver, &bomberman2, &game);
+                check_bonus(&bomberman2, &game);
+                place_bomb(bomb_mesh, &game, bomberman2, receiver);
+            }
+            update_bomb(&game, frameDeltaTime, &destructibleList, crate_mesh);
+            game.smgr->drawAll();
         } else {
+            game.smgr->drawAll();
             if (menu.is_rotating)
                 menu_camera_rotate(&game, &menu, frameDeltaTime, camera);
-            else if (main_menu(&game, &menu, frameDeltaTime, receiver))
+            else if (main_menu(&game, &menu, frameDeltaTime, receiver, &data))
                 break;
         }
-
-        game.smgr->drawAll();
         game.guienv->drawAll();
 
         game.driver->endScene();

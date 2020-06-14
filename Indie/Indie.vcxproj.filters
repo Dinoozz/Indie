@@ -24,9 +24,6 @@
     <ClCompile Include="Object.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="SolidGround.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -42,15 +39,21 @@
     <ClCompile Include="Bombs.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="Save.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="init_save.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Character.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="SolidGround.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
@@ -63,6 +66,9 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="menu.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
