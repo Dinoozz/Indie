@@ -9,9 +9,13 @@ void init_menu(game_t *game, menu_t *menu, data_t *data)
 	menu->play_2_button = game->driver->getTexture("../media/2_player_button.png");
 	menu->load_button = game->driver->getTexture("../media/load_game.png");
 	menu->arrow = game->driver->getTexture("../media/arrow.png");
+	menu->default_button = game->driver->getTexture("../media/default.png");
 	menu->choice = 1;
 	menu->in_game = false;
 	menu->is_rotating = 0;
+	menu->pause = false;
+	menu->in_load_menu = false;
+	menu->lateral_choice = 0;
 }
 
 void save_menu(game_t* game, menu_t* menu, data_t* data)
@@ -57,6 +61,10 @@ int main_menu(game_t *game, menu_t *menu, const f32 frameDeltaTime, MyEventRecei
 	static f32 time = 0;
 
 	time += frameDeltaTime;
+	if (menu->in_load_menu == true) {
+		load_menu(game, menu, frameDeltaTime, receiver, data);
+		return (0);
+	}
 	display_menu(game, menu, 0);
 	if (receiver.IsKeyDown(irr::KEY_RETURN)) {
 		if (menu->choice == 1) {
@@ -68,8 +76,10 @@ int main_menu(game_t *game, menu_t *menu, const f32 frameDeltaTime, MyEventRecei
 			game->nb_player = 2;
 		}
 		else if (menu->choice == 3) {
-			save_menu(game, menu, data);
-			game->load = true;
+			menu->choice = 1;
+			menu->in_load_menu = true;
+			load_menu(game, menu, frameDeltaTime, receiver, data);
+			return (0);
 			//menu->is_rotating = true;
 		} else if (menu->choice == 4) {
 			return (1);

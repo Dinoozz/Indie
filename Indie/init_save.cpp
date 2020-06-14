@@ -32,13 +32,11 @@ void load_save(game_t *game, data_t *data, Player *bomberman1, Player *bomberman
 
 void restore_p2(Character* bomberman2, data_t *data)
 {
-	std::cout << "ouais je te jure" << std::endl;
 	bomberman2->getSpeed() = data->List_Charact.at(1)->speed;
 	bomberman2->getPower() = data->List_Charact.at(1)->power;
 	bomberman2->getNbBomb() = data->List_Charact.at(1)->nb_bomb;
 	bomberman2->getWallpass() = data->List_Charact.at(1)->wall_pass;
 	bomberman2->getIsAlive() = data->List_Charact.at(1)->is_alive;
-	std::cout << "ouais je te jure" << std::endl;
 
 	for (int j = 0; data->map2D[j]; j++) {
 		for (int g = 0; data->map2D[j][g]; g++) {
@@ -47,5 +45,4 @@ void restore_p2(Character* bomberman2, data_t *data)
 			
 		}
 	}
-	std::cout << "ouais je te jure" << std::endl;
 }

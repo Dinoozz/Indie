@@ -21,7 +21,6 @@ std::vector <Bomb> bomb_explosion_anim(std::vector <Bomb> explosions, f32 frameD
     time += frameDeltaTime;
     for (int i = explosions.size() - 1; i >= 0; i--) {
         explosions.at(i).getTime() += frameDeltaTime;
-       // printf("delta time = %f et time:%f\n", frameDeltaTime, explosions.at(i).getTime());
         if (time >= 0.1) {
             explosions.at(i).getnode()->setScale(explosions.at(i).getnode()->getScale() + vector3df(10, 10, 10) * frameDeltaTime);
         }
@@ -119,10 +118,6 @@ std::vector <Bomb> bomb_explosion(game_t* game, Bomb bomb, int x, int z, static 
             explosions = bomb_explosion_create(game, explosions, z, x - i);
             game->map2D[z][x - i] = spawn_bonus(game, z, x - i, first);
             first = false;
-            for (int i = 0; game->map2D[i]; i++) {
-                printf("%s", game->map2D[i]);
-            }
-            printf("\n");
             break;
         } else if (game->map2D[z][x - i] == '#' || game->map2D[z][x - i] == 'O')
             break;
@@ -152,10 +147,6 @@ std::vector <Bomb> bomb_explosion(game_t* game, Bomb bomb, int x, int z, static 
             explosions = bomb_explosion_create(game, explosions, z - i, x);
             game->map2D[z - i][x] = spawn_bonus(game, z - i, x, first);
             first = false;
-            for (int i = 0; game->map2D[i]; i++) {
-                printf("%s", game->map2D[i]);
-            }
-            printf("\n");
             break;
         }
         else if (game->map2D[z - i][x] == '#' || game->map2D[z - i][x] == 'O')

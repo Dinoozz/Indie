@@ -7,6 +7,7 @@ int main(void)
     game_t game;
     data_t data;
     menu_t menu;
+    pause_t pause;
     MyEventReceiver receiver;
     game.device = createDevice(video::EDT_OPENGL, dimension2d<u32>(1920, 1080), 16, false, false, false, &receiver);
 
@@ -51,6 +52,7 @@ int main(void)
     //
 
     init_menu(&game, &menu, &data);
+    init_pause(&game, &pause);
     
     ICameraSceneNode *camera = game.smgr->addCameraSceneNode(0, vector3df(0, 10, -10), vector3df(16, 40, 16));//
     //game.smgr->addCameraSceneNodeFPS(0, 100.0f, 0.02f);
@@ -77,7 +79,7 @@ int main(void)
         const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
         then = now;
 
-        if (menu.in_game == true) {
+        if (menu.in_game == true && menu.pause == false) {
             if (loading) {
                 if (game.nb_player == 1 && bomberman2.getIsAlive() == true) {
                     bomberman2.getnode()->remove();
@@ -103,8 +105,12 @@ int main(void)
                 place_bomb(bomb_mesh, &game, bomberman2, receiver);
             }
             update_bomb(&game, frameDeltaTime, &destructibleList, crate_mesh);
+            if (receiver.IsKeyDown(irr::KEY_ESCAPE)) {
+                menu.pause = true;
+            }
+
             game.smgr->drawAll();
-        } else {
+        } else if (menu.in_game == false) {
             game.smgr->drawAll();
             if (menu.is_rotating) {
                 if (game.load == true && create_map == true) {
@@ -116,7 +122,15 @@ int main(void)
             }
             else if (main_menu(&game, &menu, frameDeltaTime, receiver, &data))
                 break;
+        } else {
+            game.smgr->drawAll();
+            if (play_pause(&game, &pause, frameDeltaTime, receiver, &menu)) {
+                break;
+            }
         }
+
+
+
         game.guienv->drawAll();
 
         game.driver->endScene();

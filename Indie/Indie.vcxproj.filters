@@ -51,6 +51,12 @@
     <ClCompile Include="init_save.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="pause.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="load.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object.h">
